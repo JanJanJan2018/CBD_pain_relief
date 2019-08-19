@@ -124,8 +124,12 @@ il1b <- sebumCBD[IL1B,]
 il6 <- sebumCBD[IL6,]
 nrip1 <- sebumCBD[NRIP1,]
 trib3 <- sebumCBD[TRIB3,]
+CNR1s <- sebumCBD[grep('CNR1', namesS),]
+CNR1s <- CNR1s[1,]
+CNRIP1s <- sebumCBD[grep('CNRIP1', namesS),]
+CNR2s <- sebumCBD[grep('CNR2', namesS),]
 
-genesSebumCBD <- rbind(mki67, trpv2, il1b, il6, nrip1, trib3)
+genesSebumCBD <- rbind(mki67, trpv2, il1b, il6, nrip1, trib3,CNR1s,CNRIP1s,CNR2s)
 write.csv(genesSebumCBD,'genesSebumCBD.csv', row.names=TRUE)
 
 # all paraphrased summaries from gene summaris on ncbi.nlm.nih.gov
@@ -144,11 +148,14 @@ IL6 <- gliomaCBD[grep('IL6', namesG),] #associated with local inflammation and c
 
 CNRIP1 <- gliomaCBD[grep('CNRIP1', namesG),]
 CNR1 <- gliomaCBD[grep('CNR1', namesG),]
-CNR1 <- CNR1[2,]
+CNR1 <- CNR1[2,]#protein coding, cannabinoid receptor 1 gene
+CNR2 <- gliomaCBD[grep('CNR2', namesG),]#cannabinoid receptor 2 gene, 
+#involved in CNS effects by psychoactive properties of cannabinoids for mood and cognition
+
 
 #combine these genes to a table of inflammation and disease genes for gliomaCBD
 
-diseaseGenesGlioma <- rbind(TNFA,S100B,IL1B,IL6,CNRIP1,CNR1)
+diseaseGenesGlioma <- rbind(TNFA,S100B,IL1B,IL6,CNRIP1,CNR1,CNR2)
 write.csv(diseaseGenesGlioma, 'GliomaDiseaseGenes.csv', row.names=TRUE)
 
 
