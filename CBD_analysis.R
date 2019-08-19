@@ -141,11 +141,14 @@ IL1B <- gliomaCBD[grep('IL1B', namesG),]#associates with pain and inflammation m
 #and is found in CNS for pain hypersensitivity when cyclooxygenase-2 (PTGS2/COX2) is present, IL1B
 #also is involved in cell proliferation, cell apoptosis, and differentiation
 IL6 <- gliomaCBD[grep('IL6', namesG),] #associated with local inflammation and cytokine production
-GLM <- gliomaCBD[grep('GLM', namesG),]#glomulin mutations associate to glomuvenous malformations 
+
+CNRIP1 <- gliomaCBD[grep('CNRIP1', namesG),]
+CNR1 <- gliomaCBD[grep('CNR1', namesG),]
+CNR1 <- CNR1[2,]
 
 #combine these genes to a table of inflammation and disease genes for gliomaCBD
 
-diseaseGenesGlioma <- rbind(TNFA,S100B,IL1B,IL6,GLM)
+diseaseGenesGlioma <- rbind(TNFA,S100B,IL1B,IL6,CNRIP1,CNR1)
 write.csv(diseaseGenesGlioma, 'GliomaDiseaseGenes.csv', row.names=TRUE)
 
 
