@@ -126,4 +126,26 @@ nrip1 <- sebumCBD[NRIP1,]
 trib3 <- sebumCBD[TRIB3,]
 
 genesSebumCBD <- rbind(mki67, trpv2, il1b, il6, nrip1, trib3)
+write.csv(genesSebumCBD,'genesSebumCBD.csv', row.names=TRUE)
+
+# all paraphrased summaries from gene summaris on ncbi.nlm.nih.gov
+TNFA <- gliomaCBD[grep('TNFA', namesG),] #a cytokine that binds to specific TNF receptors,
+#involved in cell proliferation, cell apoptosis, cell differentiation, lipid metabolism, and 
+#coagulation. It is associated with cancer, autoimmune diseases, and diabetes, in mice it has
+#a neuroprotective property
+S100B <- gliomaCBD[grep('S100B', namesG),]# a protein involved with 13 members that are shown
+# to be involved in cell cycle progression and differentiation, and mutations can be involved in 
+# neurological and neoplastic diseases like AD, epilepsy, Type I diabetes, melanoma, and ALS
+IL1B <- gliomaCBD[grep('IL1B', namesG),]#associates with pain and inflammation mediator and
+#processed by CASP1 caspase 1 to full active form, IL1B is a cytokine, responds to macrophages,
+#and is found in CNS for pain hypersensitivity when cyclooxygenase-2 (PTGS2/COX2) is present, IL1B
+#also is involved in cell proliferation, cell apoptosis, and differentiation
+IL6 <- gliomaCBD[grep('IL6', namesG),] #associated with local inflammation and cytokine production
+GLM <- gliomaCBD[grep('GLM', namesG),]#glomulin mutations associate to glomuvenous malformations 
+
+#combine these genes to a table of inflammation and disease genes for gliomaCBD
+
+diseaseGenesGlioma <- rbind(TNFA,S100B,IL1B,IL6,GLM)
+write.csv(diseaseGenesGlioma, 'GliomaDiseaseGenes.csv', row.names=TRUE)
+
 
