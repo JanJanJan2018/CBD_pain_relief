@@ -60,6 +60,19 @@ write.csv(gse57571, 'gse57571_full_set.csv', row.names=FALSE)
 ###############################################################################
 
 gse56978 <- read.csv('gse56978_full_set.csv',  header=TRUE, sep=',')
+
+#divide this large data set into four parts 22152/4=5538 rows long each
+# 1:5538, 5539:11076, 11077:16614, 16615:22152
+gse56978_1 <- gse56978[1:5538,]
+gse56978_2 <- gse56978[5539:11076,]
+gse56978_3 <- gse56978[11077:16614,]
+gse56978_4 <- gse56978[16615:21152,]
+
+write.csv(gse56978_1, 'gse56978_1.csv', row.names=FALSE)
+write.csv(gse56978_2, 'gse56978_2.csv', row.names=FALSE)
+write.csv(gse56978_3, 'gse56978_3.csv', row.names=FALSE)
+write.csv(gse56978_4, 'gse56978_4.csv', row.names=FALSE)
+
 gse57571 <- read.csv('gse57571_full_set.csv',  header=TRUE, sep=',')
 
 gliomaCBD <- gse56978[,c(2:7,20)]
