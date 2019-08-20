@@ -192,3 +192,5 @@ FC_sebum <- mutate(mag_sebum, Fold_Change_CBD_2_CTRL=GSM1385017.CBD/GSM1385016.C
 FC_sebum_DE_order <- FC_sebum[order(FC_sebum$DE_CBD_mns_CTRL,decreasing=TRUE),]
 FC_sebum_FC_order <- FC_sebum[order(FC_sebum$Fold_Change_CBD_2_CTRL, decreasing=TRUE),]
 
+write.csv(FC_sebum_FC_order, 'FC_sebum_order.csv')
+write.csv(FC_sebum_DE_order, 'DE_sebum_order.csv')
