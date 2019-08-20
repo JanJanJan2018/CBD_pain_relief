@@ -158,4 +158,37 @@ CNR2 <- gliomaCBD[grep('CNR2', namesG),]#cannabinoid receptor 2 gene,
 diseaseGenesGlioma <- rbind(TNFA,S100B,IL1B,IL6,CNRIP1,CNR1,CNR2)
 write.csv(diseaseGenesGlioma, 'GliomaDiseaseGenes.csv', row.names=TRUE)
 
+##############################################################################################
+
+gliomaCBD <- read.csv('gliomaCBD.csv', row.names=1, header=TRUE, sep=',')
+sebumCBD <- read.csv('sebumCBD.csv', row.names=1, header=TRUE, sep=',')
+
+namesG <- row.names(gliomaCBD)
+namesG <- gsub(' ','', namesG)
+gliomaCBD$Symbol <- namesG
+
+namesS <- row.names(sebumCBD)
+sebumCBD$Symbol <- namesS
+
+# I made a summary of the genes interested in with inflammation, cell prolif/death, 
+# tumor suppr/inducers saved as 'NCBI_Ref_Seq_Gene_SUMM.csv' to add to CBD data set
+
+summ <- read.delim('NCBI_Ref_Seq_Gene_SUMM.csv', sep=',', comment.char='#', skip =1)
+
+# merge to gene summaries
+gliomaCBD_summ <- merge(summ, gliomaCBD, by.x='Gene', by.y='Symbol')
+sebumCBD_summ <- merge(summ, sebumCBD, by.x='Gene', by.y='Symbol')
+
+write.csv(gliomaCBD_summ, 'gliomaCBD_summ.csv')
+write.csv(sebumCBD_summ, 'sebumCBD_summ.csv')
+
+library(dplyr)
+
+# add a DE column and fold change column to the sebumCBD_summ data
+DE_sebum <- mutate(sebumCBD_summ, DE_CBD_mns_CTRL = GSM1385017.CBD-GSM1385016.CTRL)
+mag_sebum <- mutate(DE_sebum, magnitude_CBD = abs(GSM1385017.CBD-GSM1385016.CTRL))
+FC_sebum <- mutate(mag_sebum, Fold_Change_CBD_2_CTRL=GSM1385017.CBD/GSM1385016.CTRL)
+
+FC_sebum_DE_order <- FC_sebum[order(FC_sebum$DE_CBD_mns_CTRL,decreasing=TRUE),]
+FC_sebum_FC_order <- FC_sebum[order(FC_sebum$Fold_Change_CBD_2_CTRL, decreasing=TRUE),]
 
