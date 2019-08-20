@@ -194,3 +194,22 @@ FC_sebum_FC_order <- FC_sebum[order(FC_sebum$Fold_Change_CBD_2_CTRL, decreasing=
 
 write.csv(FC_sebum_FC_order, 'FC_sebum_order.csv')
 write.csv(FC_sebum_DE_order, 'DE_sebum_order.csv')
+
+
+library(dplyr)
+
+DE <- FC_sebum_DE_order[c(1:4,20:22),]
+DE2 <- mutate(DE, expression=DE$DE_CBD_mns_CTRL>0)
+DE2$expression <- gsub('TRUE','up-regulated',DE2$expression)
+DE2$expression <- gsub('FALSE','down-regulated', DE2$expression)
+
+library(ggplot2)
+
+png('GenesRegulatedMostSebumCBD.png', width=768, height=576)
+g <- ggplot(DE2, aes(x=as.factor(Gene), y=DE_CBD_mns_CTRL))
+g= g+xlab('Genes in CBD Treated Sebum to Non-Treated')
+g= g+ ylab('Differential Expression Change CBD Treated Sebum to Non-Treated')
+g= g+ geom_point(aes(colour=expression),size=6, alpha=0.9)
+g
+dev.off()
+
