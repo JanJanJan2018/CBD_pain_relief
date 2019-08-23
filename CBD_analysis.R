@@ -179,8 +179,8 @@ summ <- read.delim('NCBI_Ref_Seq_Gene_SUMM.csv', sep=',', comment.char='#', skip
 gliomaCBD_summ <- merge(summ, gliomaCBD, by.x='Gene', by.y='Symbol')
 sebumCBD_summ <- merge(summ, sebumCBD, by.x='Gene', by.y='Symbol')
 
-write.csv(gliomaCBD_summ, 'gliomaCBD_summ.csv')
-write.csv(sebumCBD_summ, 'sebumCBD_summ.csv')
+write.csv(gliomaCBD_summ, 'gliomaCBD_summ.csv', row.names=FALSE)
+write.csv(sebumCBD_summ, 'sebumCBD_summ.csv', row.names=FALSE)
 
 library(dplyr)
 
@@ -192,13 +192,14 @@ FC_sebum <- mutate(mag_sebum, Fold_Change_CBD_2_CTRL=GSM1385017.CBD/GSM1385016.C
 FC_sebum_DE_order <- FC_sebum[order(FC_sebum$DE_CBD_mns_CTRL,decreasing=TRUE),]
 FC_sebum_FC_order <- FC_sebum[order(FC_sebum$Fold_Change_CBD_2_CTRL, decreasing=TRUE),]
 
-write.csv(FC_sebum_FC_order, 'FC_sebum_order.csv')
-write.csv(FC_sebum_DE_order, 'DE_sebum_order.csv')
+write.csv(FC_sebum_FC_order, 'FC_sebum_order.csv', row.names=FALSE)
+write.csv(FC_sebum_DE_order, 'DE_sebum_order.csv', row.names=FALSE)
 
+FC_sebum_order <- read.csv('FC_sebum_order.csv', sep=',', header=TRUE)
 
 library(dplyr)
 
-DE <- FC_sebum_DE_order[c(1:4,20:22),]
+DE <- FC_sebum_order[c(1:4,20:22),]
 DE2 <- mutate(DE, expression=DE$DE_CBD_mns_CTRL>0)
 DE2$expression <- gsub('TRUE','up-regulated',DE2$expression)
 DE2$expression <- gsub('FALSE','down-regulated', DE2$expression)
@@ -206,10 +207,87 @@ DE2$expression <- gsub('FALSE','down-regulated', DE2$expression)
 library(ggplot2)
 
 png('GenesRegulatedMostSebumCBD.png', width=768, height=576)
-g <- ggplot(DE2, aes(x=as.factor(Gene), y=DE_CBD_mns_CTRL))
+g <- ggplot(DE2, aes(x=as.factor(Gene), y=Fold_Change_CBD_2_CTRL))
 g= g+xlab('Genes in CBD Treated Sebum to Non-Treated')
-g= g+ ylab('Differential Expression Change CBD Treated Sebum to Non-Treated')
+g= g+ ylab('Fold Change CBD Treated Sebum to Non-Treated')
 g= g+ geom_point(aes(colour=expression),size=6, alpha=0.9)
 g
 dev.off()
 
+###################################################################################################3
+
+FC_sebum_FC_order <- read.csv('FC_sebum_order.csv', sep=',', header=TRUE)
+
+# pull in the data set on all genes from the UL target risk gene study of 121 samples
+# 51 non and 70 UL, 'all_common_12173_130_fold_magnitude.csv' and get the genes used in
+# the CBD data on inflammation, cytokines, pain, hormones, etc.
+
+UL_FC <- read.csv('all_common_12173_130_fold_magnitude.csv', sep=',', header=TRUE, row.names=1)
+
+FC_cbd <- data.frame(FC_sebum_FC_order[,1:3])
+write.csv(FC_cbd,'hormon-pain-genes.csv', row.names=FALSE)
+
+UL_inf_pain_hormone <- merge(FC_cbd,UL_FC, by.x='Gene', by.y='GENE_SYMBOL')
+
+write.csv(UL_inf_pain_hormone, 'UL_pain_hormone_genes.csv', row.names=FALSE)
+
+# compare those genes expressed in UL compared to CBD treated sebum array samples for fold change
+# and differential expression
+
+###################################################################################################3
+
+# now compare the CBD and CTRL groups of the glioma CBD treated samples, 3 each
+
+CBD_glioma <- read.csv('gliomaCBD_summ.csv', sep=',', header=TRUE)
+
+CBD_trtd <- CBD_glioma[,c(4,6,8)]
+names <- as.character(CBD_glioma$Gene)
+row.names(CBD_trtd) <- names
+
+CBD_cntrl <- CBD_glioma[,c(5,7,9)]
+row.names(CBD_cntrl) <- names
+
+gliomaMeans <- data.frame(rowMeans(CBD_cntrl))
+colnames(gliomaMeans) <- 'Control_Mean'
+
+gliomaCBDMeans <- data.frame(rowMeans(CBD_trtd))
+colnames(gliomaCBDMeans) <- 'CBD_Treated_Mean'
+
+gliomaCBD_stats <- cbind(gliomaMeans, gliomaCBDMeans)
+
+library(dplyr)
+
+gliomaStats <- mutate(gliomaCBD_stats, DifferenceInMeansFromCBD=CBD_Treated_Mean-Control_Mean)
+gliomaStats2 <- mutate(gliomaStats, FoldChange=CBD_Treated_Mean/Control_Mean)
+
+CBD_glioma_stats <- cbind(CBD_glioma, gliomaStats2)
+
+write.csv(CBD_glioma_stats, 'CBD_glioma_stats.csv', row.names=FALSE)
+CBD_glioma_stats <- read.csv('CBD_glioma_stats.csv', sep=',', header=TRUE)
+
+CBD_glioma_FC_ordered <- CBD_glioma_stats[order(CBD_glioma_stats$FoldChange,
+                                                decreasing=TRUE),]
+write.csv(CBD_glioma_FC_ordered,'CBD_glioma_FC_ordered.csv', row.names=FALSE)
+
+
+CBD_glioma_DE_ordered <- CBD_glioma_stats[order(CBD_glioma_stats$DifferenceInMeansFromCBD,
+                                                decreasing=TRUE),]
+
+write.csv(CBD_glioma_DE_ordered,'CBD_glioma_DE_ordered.csv', row.names=FALSE)
+
+library(dplyr)
+
+DE <- CBD_glioma_FC_ordered[c(1:2,27:30),]
+DE2 <- mutate(DE, expression=DE$DifferenceInMeansFromCBD>0)
+DE2$expression <- gsub('TRUE','up-regulated',DE2$expression)
+DE2$expression <- gsub('FALSE','down-regulated', DE2$expression)
+
+library(ggplot2)
+
+png('GenesRegulatedMostGliomaCBD.png', width=768, height=576)
+g <- ggplot(DE2, aes(x=as.factor(Gene), y=FoldChange))
+g= g+xlab('Genes in CBD Treated Glioma to Non-Treated')
+g= g+ ylab('Fold Change CBD Treated Glioma to Non-Treated')
+g= g+ geom_point(aes(colour=expression),size=6, alpha=0.9)
+g
+dev.off()
