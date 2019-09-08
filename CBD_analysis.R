@@ -584,16 +584,19 @@ GSE110332$ID_REF <- gsub('"','',as.character(GSE110332$ID_REF), fixed=TRUE, perl
 GPL571 <- read.delim('GPL571-17391.txt', sep='\t', quote="", header=TRUE,
                        comment.char='#', na.strings=c('','NA','---'))
 
-GPL571_a <- GPL571[1:11139,]
+GPL571_a <- GPL571[1:7999,]
+GPL571_a_2 <- GPL571[8000:11139,]
 GPL571_b <- GPL571[11140:22277,]
 
 write.csv(GPL571_a, 'GPL571_a.csv', row.names=FALSE)
+write.csv(GPL571_a_2, 'GPL571_a_2.csv', row.names=FALSE)
 write.csv(GPL571_b, 'GPL571_b.csv', row.names=FALSE)
 
 GPL571_a <- read.csv('GPL571_a.csv', sep=',', header=TRUE)
+GPL571_a_2 <- read.csv('GPL571_a_2.csv', sep=',', header=TRUE)
 GPL571_b <- read.csv('GPL571_b.csv', sep=',', header=TRUE)
 
-brstCncr <- rbind(GPL571_a, GPL571_b)
+brstCncr <- rbind(GPL571_a, GPL_a_2, GPL571_b)
 brstCancer <- merge(GSE110332, brstCncr, by.x='ID_REF', by.y='ID')
 
 write.csv(brstCancer, 'breastCancer.csv', row.names=FALSE)
@@ -622,19 +625,31 @@ GPL10558 <- read.delim('GPL10558-50081.txt', sep='\t', quote="", header=TRUE,
                        comment.char='#', na.strings=c('','NA','---'))
 #divide GPL10558 into 3 parts a:c bc it is 68.8 MB
 
-GPL10558_a <- GPL10558[1:16036,]
-GPL10558_b <- GPL10558[16037:32073,]
+GPL10558_a <- GPL10558[1:10000,]
+GPL10558_a_2 <- GPL10558[10001:16036,]
+
+GPL10558_b <- GPL10558[16037:25000,]
+GPL10558_b_2 <- GPL10558[25001:32073,]
+
 GPL10558_c <- GPL10558[32074:48107,]
 
 write.csv(GPL10558_a, 'GPL10558_a.csv', row.names=FALSE)
+write.csv(GPL10558_a_2, 'GPL10558_a_2.csv', row.names=FALSE)
+
 write.csv(GPL10558_b, 'GPL10558_b.csv', row.names=FALSE)
+write.csv(GPL10558_b_2, 'GPL10558_b_2.csv', row.names=FALSE)
+
 write.csv(GPL10558_c, 'GPL10558_c.csv', row.names=FALSE)
 
 GPL10558_a <- read.csv('GPL10558_a.csv', sep=',', header=TRUE)
+GPL10558_a_2 <- read.csv('GPL10558_a_2.csv', sep=',', header=TRUE)
+
 GPL10558_b <- read.csv('GPL10558_b.csv', sep=',', header=TRUE)
+GPL10558_b_2 <- read.csv('GPL10558_b_2.csv', sep=',', header=TRUE)
+
 GPL10558_c <- read.csv('GPL10558_c.csv', sep=',', header=TRUE)
 
-GPL10558 <- rbind(GPL10558_a, GPL10558_b, GPL10558_c)
+GPL10558 <- rbind(GPL10558_a, GPL10558_a_2, GPL10558_b, GPL10558_b_2, GPL10558_c)
 
 colonCancer <- merge(GSE135749, GPL10558, by.x='ID_REF', by.y='ID')
 
