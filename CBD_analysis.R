@@ -568,3 +568,108 @@ write.csv(controls7, 'UL_glioma_sebm_pancr_stats.csv', row.names=FALSE)#9281X12
 
 #######################################################################################
 
+# look at the breast cancer, colon cancer, and stomach cancer array data
+# import them and subset each into datasets less than 25 MB for github
+# then import in with each subset to run code
+
+# breast cancer array data for the series and platform from the gene expression omnibus, GEO
+# GPL571-17391.txt and GSE110332_series_matrix.txt search GPL571 and GSE110332 in GEO
+
+GSE110332 <- read.delim('GSE110332_series_matrix.txt',sep='\t', quote="", header=TRUE,
+                        comment.char='!', na.strings=c('','NA'))
+colnames(GSE110332) <- gsub('X.','', colnames(GSE110332))
+colnames(GSE110332) <- gsub('.','', colnames(GSE110332), fixed=TRUE)
+GSE110332$ID_REF <- gsub('"','',as.character(GSE110332$ID_REF), fixed=TRUE, perl=TRUE)
+
+GPL571 <- read.delim('GPL571-17391.txt', sep='\t', quote="", header=TRUE,
+                       comment.char='#', na.strings=c('','NA','---'))
+
+GPL571_a <- GPL571[1:11139,]
+GPL571_b <- GPL571[11140:22277,]
+
+write.csv(GPL571_a, 'GPL571_a.csv', row.names=FALSE)
+write.csv(GPL571_b, 'GPL571_b.csv', row.names=FALSE)
+
+GPL571_a <- read.csv('GPL571_a.csv', sep=',', header=TRUE)
+GPL571_b <- read.csv('GPL571_b.csv', sep=',', header=TRUE)
+
+brstCncr <- rbind(GPL571_a, GPL571_b)
+brstCancer <- merge(GSE110332, brstCncr, by.x='ID_REF', by.y='ID')
+
+write.csv(brstCancer, 'breastCancer.csv', row.names=FALSE)
+
+# Stomach cancer array data, GPL13497-9755.txt and GSE64916_series_matrix.txt
+GPL13497 <- read.delim('GPL13497-9755.txt', sep='\t', quote="", header=TRUE,
+                       comment.char='#', na.strings=c('','NA','---'))
+GSE64916 <- read.delim('GSE64916_series_matrix.txt', sep='\t', quote='', header=TRUE,
+                       comment.char='!', na.strings=c('','NA','---'))
+colnames(GSE64916) <- gsub('X.','', colnames(GSE64916))
+colnames(GSE64916) <- gsub('.','', colnames(GSE64916), fixed=TRUE)
+GSE64916$ID_REF <- gsub('"','', as.character(GSE64916$ID_REF), fixed=TRUE, perl=TRUE) 
+
+stomachCancer <- merge(GSE64916, GPL13497, by.x='ID_REF', by.y='ID')
+
+write.csv(stomachCancer,'StomachCancer.csv', row.names=FALSE)  
+
+# colon cancer array data
+GSE135749 <- read.delim('GSE135749_series_matrix.txt', sep='\t', quote='', header=TRUE,
+                       comment.char='!', na.strings=c('','NA','---'))
+colnames(GSE135749) <- gsub('X.','', colnames(GSE135749))
+colnames(GSE135749) <- gsub('.','', colnames(GSE135749), fixed=TRUE)
+GSE135749$ID_REF <- gsub('"','', as.character(GSE135749$ID_REF), fixed=TRUE, perl=TRUE) 
+
+GPL10558 <- read.delim('GPL10558-50081.txt', sep='\t', quote="", header=TRUE,
+                       comment.char='#', na.strings=c('','NA','---'))
+#divide GPL10558 into 3 parts a:c bc it is 68.8 MB
+
+GPL10558_a <- GPL10558[1:16036,]
+GPL10558_b <- GPL10558[16037:32073,]
+GPL10558_c <- GPL10558[32074:48107,]
+
+write.csv(GPL10558_a, 'GPL10558_a.csv', row.names=FALSE)
+write.csv(GPL10558_b, 'GPL10558_b.csv', row.names=FALSE)
+write.csv(GPL10558_c, 'GPL10558_c.csv', row.names=FALSE)
+
+GPL10558_a <- read.csv('GPL10558_a.csv', sep=',', header=TRUE)
+GPL10558_b <- read.csv('GPL10558_b.csv', sep=',', header=TRUE)
+GPL10558_c <- read.csv('GPL10558_c.csv', sep=',', header=TRUE)
+
+GPL10558 <- rbind(GPL10558_a, GPL10558_b, GPL10558_c)
+
+colonCancer <- merge(GSE135749, GPL10558, by.x='ID_REF', by.y='ID')
+
+write.csv(colonCancer, 'ColonCancer.csv', row.names=FALSE)
+
+#######################################################################################
+
+# 'UL_glioma_sebm_pancr_stats.csv' and the newer files 'ColonCancer.csv' , 'breastCancer.csv' ,
+# and 'StomachCancer.csv' are to be cleaned and combined to compare expression values of genes
+# and their changes relative to the tissue type sampled and the tumor sampled in array data
+
+UL_glm_sbm_pncr_stats <- read.csv('UL_glioma_sebm_pancr_stats.csv', sep=',', header=TRUE)
+
+breastCancer <- read.csv('breastCancer.csv', sep=',', header=TRUE)
+colonCancer <- read.csv('ColonCancer.csv', sep=',', header=TRUE)
+stomachCancer <- read.csv('StomachCancer.csv', sep=',', header=TRUE)
+
+brcr <- breastCancer[na.omit(breastCancer$Gene.Symbol),]
+brscr <- brcr[,c(2:7,17)]
+brstCncr <- brscr[!duplicated(brscr$Gene.Symbol),]
+Gene <- strsplit(as.character(brstCncr$Gene.Symbol), '///', perl=TRUE)
+gene <- lapply(Gene, '[',1)
+brstCncr$Gene <- t(data.frame(gene))
+breastCancer <- brstCncr[,-7]
+
+write.csv(breastCancer,'BreastCancerCleaned.csv', row.names=FALSE)
+
+ColonCancer <- colonCancer[,c(2:7,19)]
+
+write.csv(ColonCancer,'ColonCancerCleaned.csv', row.names=FALSE)
+
+Stomach <- stomachCancer[na.omit(stomachCancer$GENE_SYMBOL),]
+StomachCancer <- Stomach[,c(2:6,12)]
+stomachCncr <- StomachCancer[complete.cases(StomachCancer),]
+
+write.csv(stomachCncr,'StomachCancerCleaned.csv', row.names=FALSE)
+
+
