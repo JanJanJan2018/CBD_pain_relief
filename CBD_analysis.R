@@ -429,4 +429,39 @@ g
 
 dev.off()
 
+CBD_pancreaticStats <- read.csv('CBD_pancreatic_Gene_Stats.csv', sep=',', header=TRUE,
+                                row.names=1)
+CBD_pancrStatsOrder <- CBD_pancreaticStats[order(CBD_pancreaticStats$FC_incr_ARHGEF10_cntrl,
+                                                 decreasing=TRUE),]
+CBD <- subset(CBD_pancrStatsOrder, CBD_pancrStatsOrder$FC_incr_ARHGEF10_cntrl > 5)
 
+library(ggplot2)
+
+png('CBD_GenesPosCorrPancreaticCancerARHGEF10.png', width=768, height=576)
+
+g <- ggplot(CBD, aes(x=FC_incr_ARHGEF10_cntrl, y= as.factor(Symbol)))
+g= g+ ggtitle('CBD Genes Positively Correlated with Increased Tumor Suppressor ARHGEF10 
+          in Cell Culture Pancreatic Cancer')
+g= g+ ylab('Genes Positively Correlated to Increased ARHGEF10')
+g= g+ xlab('Fold Change Increased More than 5 Fold')
+g= g+ geom_point(aes(colour=DE_Incr_ARHGEF10_cntrl),size=6, alpha=0.9)
+g
+
+dev.off()
+
+endopancrStats <- read.csv('endocrinePancreaticCancerGeneStats.csv', sep=',', header=TRUE,
+                           row.names=1)
+endo <- endopancrStats[order(endopancrStats$FC_incr_ARHGEF10_cntrl, decreasing=TRUE),]
+endo1 <- subset(endo, endo$FC_incr_ARHGEF10_cntrl>5)
+
+png('Endocrine_GenesPosCorrPancreaticCancerARHGEF10.png', width=768, height=576)
+
+g <- ggplot(endo1, aes(x=FC_incr_ARHGEF10_cntrl, y= as.factor(Symbol)))
+g= g+ ggtitle('Endocrine Genes Positively Correlated with Increased Tumor Suppressor ARHGEF10 
+          in Cell Culture Pancreatic Cancer')
+g= g+ ylab('Genes Positively Correlated to Increased ARHGEF10')
+g= g+ xlab('Fold Change Increased More than 5 Fold')
+g= g+ geom_point(aes(colour=DE_Incr_ARHGEF10_cntrl),size=6, alpha=0.9)
+g
+
+dev.off()
