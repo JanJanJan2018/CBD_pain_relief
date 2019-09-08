@@ -465,3 +465,106 @@ g= g+ geom_point(aes(colour=DE_Incr_ARHGEF10_cntrl),size=6, alpha=0.9)
 g
 
 dev.off()
+
+###############################################################################################
+
+# go back to control of pancreatic cancer genes
+pancreatic7 <- read.csv('pancreaticCancerGeneStats.csv', row.names=1, sep=',', header=TRUE)
+
+# pull in the CBD pain and endocrine gene datasets
+painGenes <- read.csv('GenesSumm1.csv', header=TRUE, sep=',')
+colnames(painGenes)[1] <- 'Gene'
+EndocrineGenes <- read.csv('GenesSumm2.csv', header=TRUE, sep=',')
+colnames(EndocrineGenes)[1] <- 'Gene'
+
+# Also pull in the stats on the nonUL genes to get the mean of the normal nonUL female genes
+# roughly compare the non-treated pancreatic cancer genes of one sample to the mean of 
+# the non-uterine-leiomyoma genes of 51 females by mean of each gene. The pancreatic cancer genes
+# are the row means of duplicate genes in original file, both are microarray samples
+
+UL_stats <- read.csv('all_common_12173_130_fold_magnitude.csv', sep=',', 
+                     , row.names=1,header=TRUE)
+row.names(UL_stats) <- UL_stats$GENE_SYMBOL
+colnames(UL_stats)[1:10]
+# [1] "GENE"        "CYTOBAND"    "GENE_SYMBOL" "Counts"      "UL_mean"     "nonUL_mean" 
+# [7] "DE"          "Magnitude"   "foldChange"  "GSM1667144"
+
+LeiomyomaStats <- UL_stats[,c(3,5:9)]
+colnames(LeiomyomaStats)[c(4,6)] <- c('DE_UL','FoldChange_UL')
+write.csv(LeiomyomaStats,'LeiomyomaStats.csv', row.names=TRUE)
+
+# Also pull in the stats on glioma means from non glioma 
+gliomaCBD <- read.csv('gliomaCBD.csv', row.names=1, header=TRUE, sep=',')
+
+# Use the control means of glioma tumors not treated with CBD
+gliomaControl <- gliomaCBD[,c(2,4,6)]
+gliomaMeans <- data.frame(rowMeans(gliomaControl))
+colnames(gliomaMeans) <- 'gliomaMeans'
+gliomaMeans$Gene <- row.names(gliomaMeans)
+gliomaMeans$Gene <- gsub(' ','', gliomaMeans$Gene)
+gliomaMeans$Gene <- as.factor(gliomaMeans$Gene)
+
+gliomaCBDtreated <- gliomaCBD[,c(1,3,5)]
+gliomaCBDmeans <- data.frame(rowMeans(gliomaCBDtreated))
+colnames(gliomaCBDmeans) <- 'gliomaMeans_CBD'
+gliomaCBDmeans$Gene <- row.names(gliomaCBDmeans)
+gliomaCBDmeans$Gene <- gsub(' ', '', gliomaCBDmeans$Gene)
+gliomaCBDmeans$Gene <- as.factor(gliomaCBDmeans$Gene)
+
+#use the control genes of pancreatic tumor values not incr/decr with ARHGEF10
+pancreaticControl <- data.frame(pancreatic7[,5])
+row.names(pancreaticControl) <- row.names(pancreatic7)
+colnames(pancreaticControl) <- 'pancreaticMeans'
+pancreaticControl$Gene <- row.names(pancreaticControl)
+pancreaticControl$Gene <- as.factor(pancreaticControl$Gene)
+
+# read in the sebum CBD data set and use the sebum controls not treated with CBD
+sebumCBD <- read.csv('sebumCBD.csv', row.names=1, header=TRUE, sep=',')
+sebumControl <- data.frame(sebumCBD[,4])
+row.names(sebumControl) <- row.names(sebumCBD)
+colnames(sebumControl) <- 'sebumMeans'
+sebumControl$Gene <- row.names(sebumControl)
+sebumControl$Gene <- as.factor(sebumControl$Gene)
+
+sebumCBDmeans <- data.frame(sebumCBD[,5])
+row.names(sebumCBDmeans) <- row.names(sebumCBD)
+colnames(sebumCBDmeans) <- 'sebum_CBDtreated_Means'
+sebumCBDmeans$Gene <- row.names(sebumCBDmeans)
+sebumCBDmeans$Gene <- as.factor(sebumCBDmeans$Gene)
+
+LeiomyomaControl <- data.frame(LeiomyomaStats[,c(1:3)])
+
+# merge these datasets to compare non treated control samples from different microarray studies
+controls <- merge(LeiomyomaControl, pancreaticControl, by.x='GENE_SYMBOL', by.y='Gene')
+controls2 <- merge(controls, sebumControl, by.x='GENE_SYMBOL', by.y='Gene' )
+controls3 <- merge(controls2, gliomaMeans, by.x='GENE_SYMBOL', by.y='Gene')
+
+write.csv(controls3, 'controls_panc_sebm_UL_glma.csv', row.names=FALSE)
+
+# Now we have a data set of different tissu and tumor control means
+# add the other statistical data of CBD treated means for glioma and sebum
+# gliomaCBDmeans and sebumCBDmeans datasets 
+# and the values of adding ARHGEF10 --- known to suppress pancreatic tumors
+# then compare the gene values, which incr/decr in samples and what tissues
+
+controls4 <- merge(controls3, gliomaCBDmeans, by.x='GENE_SYMBOL', by.y='Gene')
+controls5 <- merge(controls4, sebumCBDmeans, by.x='GENE_SYMBOL', by.y='Gene')
+
+pancreaticStats <- pancreatic7[,c(1:4,13)]
+colnames(pancreaticStats)[1:4] <- c('DE_incr_ARHGFE10_pancr','DE_decr_ARHGFE10_pancr',
+                                    'FC_incr_ARHGFE10_pancr','FC_decr_ARHGFE10_pancr')
+
+controls6 <- merge(controls5, pancreaticStats, by.x='GENE_SYMBOL', by.y='Symbol')
+
+controls7 <- controls6[,c(1:3,6,7,5,8,4,9:12)]
+colnames(controls7)
+# [1] "GENE_SYMBOL"            "UL_mean"                "nonUL_mean"            
+# [4] "gliomaMeans"            "gliomaMeans_CBD"        "sebumMeans"            
+# [7] "sebum_CBDtreated_Means" "pancreaticMeans"        "DE_incr_ARHGFE10_pancr"
+# [10] "DE_decr_ARHGFE10_pancr" "FC_incr_ARHGFE10_pancr" "FC_decr_ARHGFE10_pancr"
+
+write.csv(controls7, 'UL_glioma_sebm_pancr_stats.csv', row.names=FALSE)#9281X12
+
+
+#######################################################################################
+
