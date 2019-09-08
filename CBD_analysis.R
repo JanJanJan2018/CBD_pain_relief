@@ -291,3 +291,142 @@ g= g+ ylab('Fold Change CBD Treated Glioma to Non-Treated')
 g= g+ geom_point(aes(colour=expression),size=6, alpha=0.9)
 g
 dev.off()
+
+
+###################################################################################################3
+
+# set the directory for each of these files then go to the main directory
+
+painGenes <- read.csv('GenesSumm1.csv', header=TRUE, sep=',')
+colnames(painGenes)[1] <- 'Gene'
+
+EndocrineGenes <- read.csv('GenesSumm2.csv', header=TRUE, sep=',')
+colnames(EndocrineGenes)[1] <- 'Gene'
+
+# go to main directory of this script and files
+
+# retrieve the files from the folder of the pancreatic cancer to compare genes
+GSE131859 <- read.delim('GSE131859_non-normalized.txt',sep='\t', quote="", header=TRUE,
+                        comment.char='!', na.strings=c('','NA'))
+
+GPL14951 <- read.delim('GPL14951-11332.txt', sep='\t', quote="", header=TRUE,
+                      comment.char='#', na.strings=c('','NA','---'))
+#this file above is 60 mb and broken into smaller sections to combine from github in 3 parts a:c
+
+GPL14951_a <- GPL14951[1:9792,]
+write.csv(GPL14951_a, 'GPL14951_a.csv', row.names=FALSE)
+GPL14951_b <- GPL14951[9793:19584,]
+write.csv(GPL14951_b, 'GPL14951_b.csv', row.names=FALSE)
+GPL14951_c <- GPL14951[19585:29377,]
+write.csv(GPL14951_c, 'GPL14951_c.csv', row.names=FALSE)
+
+GPL14951_a <- read.csv('GPL14951_a.csv', sep=',',  header=TRUE,
+                        na.strings=c('','NA','---'))
+GPL14951_b <- read.csv('GPL14951_b.csv', sep=',', header=TRUE,
+                          na.strings=c('','NA','---'))
+GPL14951_c <- read.csv('GPL14951_c.csv', sep=',',  header=TRUE,
+                        na.strings=c('','NA','---'))
+
+GPL14951 <- rbind(GPL14951_a, GPL14951_b, GPL14951_c)
+
+
+
+# merge the pancreatic files into one file for the series and platform
+pancreatic <- merge(GSE131859, GPL14951, by.x='ID_REF', by.y='ID')
+colnames(pancreatic)
+# [1] "ID_REF"                           "MiaPACA2_EV"                     
+# [3] "MiaPACA2_EV.Detection_Pval"       "MiaPACA2_ARHGEF10"               
+# [5] "MiaPACA2_ARHGEF10.Detection_Pval" "Hs766T_shGFP"                    
+# [7] "Hs766T_shGFP.Detection_Pval"      "Hs766T_shARHGEF10"               
+# [9] "Hs766T_shARHGEF10.Detection_Pval" "X"                               
+# [11] "Transcript"                       "Species"                         
+# [13] "Source"                           "Search_Key"                      
+# [15] "ILMN_Gene"                        "Source_Reference_ID"             
+# [17] "RefSeq_ID"                        "Entrez_Gene_ID"                  
+# [19] "GI"                               "Accession"                       
+# [21] "Symbol"                           "Protein_Product"                 
+# [23] "Array_Address_Id"                 "Probe_Type"                      
+# [25] "Probe_Start"                      "SEQUENCE"                        
+# [27] "Chromosome"                       "Probe_Chr_Orientation"           
+# [29] "Probe_Coordinates"                "Cytoband"                        
+# [31] "Definition"                       "Ontology_Component"              
+# [33] "Ontology_Process"                 "Ontology_Function"               
+# [35] "Synonyms"                         "Obsolete_Probe_Id"               
+# [37] "GB_ACC"      
+
+# keep only the Symbol, pancreatic cancer types for features
+pancreatic1 <- pancreatic[,c(2:9,21)] # cell culture treated after extraction from pancreatic cncr
+# the MiaPACA2_EV is empty vector control, MiaPACA2_ARHGEF10 is overexpressing, 
+# Hs766T_shGFP is the short hairpin RNA (shRNA) knockdown of ARHGEF10 control (sep. cntrl smpl),
+# and Hs766T_shARHGEF10 is the knockdown of ARHGEF10 
+
+pancreatic1 <- pancreatic1[!duplicated(pancreatic1),]
+
+library(dplyr)
+
+pancr <- pancreatic1 %>% group_by(Symbol) %>% summarise(n=n())
+pancr2 <- pancreatic1 %>% group_by(Symbol) %>% summarise_at(vars(MiaPACA2_EV:Hs766T_shARHGEF10.Detection_Pval),
+                                                            mean)
+
+pancr3 <- merge(pancr, pancr2, by.x='Symbol', by.y='Symbol')
+
+write.csv(pancr3, 'pancreaticCancerGenes.csv', row.names=FALSE)
+
+pancreatic4 <- pancr3 %>% mutate(DE_Incr_ARHGEF10_cntrl=MiaPACA2_ARHGEF10-MiaPACA2_EV)
+pancreatic5 <- pancreatic4 %>% mutate(DE_decr_ARGHEF10_cntrl=Hs766T_shARHGEF10-Hs766T_shGFP)
+pancreatic6 <- pancreatic5 %>% mutate(FC_incr_ARHGEF10_cntrl = MiaPACA2_ARHGEF10/MiaPACA2_EV)
+pancreatic7 <- pancreatic6 %>% mutate(FC_decr_ARGHEF10_cntrl = Hs766T_shARHGEF10/Hs766T_shGFP)
+row.names(pancreatic7) <- pancreatic7$Symbol
+pancreatic7 <- pancreatic7[,c(11:14,3:10,1:2)]
+write.csv(pancreatic7,'pancreaticCancerGeneStats.csv', row.names=TRUE)
+
+#endoPancreatic <- merge(pancr3, EndocrineGenes, by.x='Symbol', by.y='Gene')
+endopancrStats <- merge(pancreatic7, EndocrineGenes, by.x='Symbol', by.y='Gene')
+row.names(endopancrStats) <- endopancrStats$Symbol
+write.csv(endopancrStats, 'endocrinePancreaticCancerGeneStats.csv', row.names=TRUE)
+
+#CBD_Pancreatic <- merge(painGenes, pancr3, by.x='Gene', by.y='Symbol')
+CBD_pancreaticStats <- merge(pancreatic7, painGenes, by.x='Symbol', by.y='Gene')
+row.names(CBD_pancreaticStats) <- CBD_pancreaticStats$Gene
+write.csv(CBD_pancreaticStats, 'CBD_pancreatic_Gene_Stats.csv', row.names=TRUE)
+
+# all genes in endocrine and CBD sets increased when ARHGEF10 increased, and decreased when 
+# ARHGEF10 decreased with their respective control samples
+
+# there are genes in the pancreatic Gene Stats set of all genes that incr when ARHGEF10 decr,
+# and vice versa, and those that have no change.
+
+library(ggplot2)
+pancreaticOrder <- pancreatic7[order(pancreatic7$FC_incr_ARHGEF10_cntrl, decreasing=FALSE),]
+pancreaticOrder1 <- subset(pancreaticOrder, pancreaticOrder$FC_incr_ARHGEF10_cntrl<0.3)
+
+png('GenesNegCorrPancreaticCancerARHGEF10.png', width=768, height=576)
+
+g <- ggplot(pancreaticOrder1, aes(x=FC_incr_ARHGEF10_cntrl, y= as.factor(Symbol)))
+g= g+ ggtitle('Genes Negatively Correlated with Increased Tumor Suppressor ARHGEF10 
+          in Cell Culture Pancreatic Cancer')
+g= g+ ylab('Genes Negatively Correlated to Increased ARHGEF10')
+g= g+ xlab('Fold Change Decreased More than 70 Percent')
+g= g+ geom_point(aes(colour=DE_Incr_ARHGEF10_cntrl),size=6, alpha=0.9)
+g
+
+dev.off()
+
+pancreaticOrder2 <- pancreatic7[order(pancreatic7$FC_incr_ARHGEF10_cntrl, decreasing=TRUE),]
+
+pancreaticOrder3 <- subset(pancreaticOrder, pancreaticOrder$FC_incr_ARHGEF10_cntrl>50)
+
+
+png('GenesPosCorrPancreaticCancerARHGEF10.png', width=768, height=576)
+
+g <- ggplot(pancreaticOrder3, aes(x=FC_incr_ARHGEF10_cntrl, y= as.factor(Symbol)))
+g= g+ ggtitle('Genes Positively Correlated with Increased Tumor Suppressor ARHGEF10 
+          in Cell Culture Pancreatic Cancer')
+g= g+ ylab('Genes Positively Correlated to Increased ARHGEF10')
+g= g+ xlab('Fold Change Increased More than 50 Fold')
+g= g+ geom_point(aes(colour=DE_Incr_ARHGEF10_cntrl),size=6, alpha=0.9)
+g
+
+dev.off()
+
+
