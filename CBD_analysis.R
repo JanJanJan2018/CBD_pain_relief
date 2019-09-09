@@ -483,7 +483,7 @@ colnames(EndocrineGenes)[1] <- 'Gene'
 # are the row means of duplicate genes in original file, both are microarray samples
 
 UL_stats <- read.csv('all_common_12173_130_fold_magnitude.csv', sep=',', 
-                     , row.names=1,header=TRUE)
+                      row.names=1,header=TRUE)
 row.names(UL_stats) <- UL_stats$GENE_SYMBOL
 colnames(UL_stats)[1:10]
 # [1] "GENE"        "CYTOBAND"    "GENE_SYMBOL" "Counts"      "UL_mean"     "nonUL_mean" 
@@ -687,4 +687,113 @@ stomachCncr <- StomachCancer[complete.cases(StomachCancer),]
 
 write.csv(stomachCncr,'StomachCancerCleaned.csv', row.names=FALSE)
 
+
+# the breast cancer data set 'BreastCancerCleaned.csv' has SH3GL2 as a tumor suppressor
+# in the last 3 samples, and controls as the first 3 samples
+
+breastCancer <- read.csv('BreastCancerCleaned.csv',sep=',', header=TRUE, na.strings=c('','NA'))
+breastCancer <- breastCancer[complete.cases(breastCancer),]
+brcr_cntrl <- breastCancer[,c(1:3,7)]
+brcr_SH3GL2 <- breastCancer[,c(4:7)]
+
+row.names(brcr_cntrl) <- brcr_cntrl$Gene
+library(dplyr)
+
+br_cr <- brcr_cntrl %>% group_by(Gene) %>% summarise_at(vars(GSM2987594:GSM2987596),
+                                                        mean, na.rm=TRUE)
+br_ctrl <- data.frame(br_cr)
+row.names(br_ctrl) <- br_cr$Gene
+br_ctrl <- br_ctrl[,-1]
+br_ctrl$BRCNCR_CTRL_Mean <- rowMeans(br_ctrl)
+br_ctrl$Gene <- row.names(br_ctrl)
+br_ctrl <- br_ctrl[,-c(1:3)]
+
+
+br_sh3 <- brcr_SH3GL2 %>% group_by(Gene) %>% summarise_at(vars(GSM2987597:GSM2987599),
+                                                          mean, na.rm=TRUE)
+br_cr_SH3GL2 <- data.frame(br_sh3)
+row.names(br_cr_SH3GL2) <- br_cr_SH3GL2$Gene
+br_cr_SH3GL2 <- br_cr_SH3GL2[,-1]
+br_cr_SH3GL2$BRCNCR_SH3GL2_Mean <- rowMeans(br_cr_SH3GL2)
+br_cr_SH3GL2$Gene <- row.names(br_cr_SH3GL2)
+br_cr_SH3GL2 <- br_cr_SH3GL2[,-c(1:3)]
+
+BRCR <- merge(br_ctrl, br_cr_SH3GL2, by.x='Gene', by.y='Gene')
+
+UL_glm_sbm_pncr_stats <- read.csv('UL_glioma_sebm_pancr_stats.csv', sep=',', header=TRUE)
+
+Means_diseases_Genes <- merge(BRCR, UL_glm_sbm_pncr_stats, by.x='Gene', by.y='GENE_SYMBOL')
+
+# clean the colon cancer data
+colonCancer <- read.csv('ColonCancer.csv', sep=',', header=TRUE)
+# first two samples are controls, next two are short hair pin knockdowns of LGR5-1,
+# last two are short hair pin RNA knockdowns of LGR5-2, this study gene changes, hence the
+# negative expression values, that are also quantile normalized from
+# this knockdown of two types to the LoVo colon cancer cell line
+
+colonCancer <- colonCancer[,c(2:7,19)]
+colonCancer <- colonCancer[!duplicated(colonCancer),]
+colonCancer <- colonCancer[complete.cases(colonCancer),]
+cln_cncr <- colonCancer %>% group_by(Symbol) %>% summarise_at(vars(GSM4027437:GSM4027446),
+                                                              mean, na.rm=TRUE)
+cln_cncr <- data.frame(cln_cncr)
+row.names(cln_cncr) <- cln_cncr$Symbol
+cln_cncr <- cln_cncr[,-1]
+
+cln_cncr_ctrl <- cln_cncr[,1:2]
+cln_cncr_ctrl$colon_cncr_ctrl_Mean <- rowMeans(cln_cncr_ctrl)
+cln_cncr_ctrl$Gene <- row.names(cln_cncr_ctrl)
+cln_cncr_ctrl <- cln_cncr_ctrl[,-c(1:2)]
+
+cln_cncr_LGR51_loss <- cln_cncr[,3:4]
+cln_cncr_LGR51_loss$colon_cncr_LGR51_loss_Mean <- rowMeans(cln_cncr_LGR51_loss)
+cln_cncr_LGR51_loss$Gene <- row.names(cln_cncr_LGR51_loss)
+cln_cncr_LGR51_loss <- cln_cncr_LGR51_loss[,-c(1:2)]
+
+cln_cncr_LGR52_loss <- cln_cncr[,5:6]
+cln_cncr_LGR52_loss$colon_cncr_LGR52_loss_Mean <- rowMeans(cln_cncr_LGR52_loss)
+cln_cncr_LGR52_loss$Gene <- row.names(cln_cncr_LGR52_loss)
+cln_cncr_LGR52_loss <- cln_cncr_LGR52_loss[,-c(1:2)]
+
+cln <- merge(cln_cncr_ctrl, cln_cncr_LGR51_loss, by.x='Gene', by.y='Gene')
+cln2 <- merge(cln, cln_cncr_LGR52_loss, by.x='Gene', by.y='Gene')
+
+diseaseGenes <- merge(Means_diseases_Genes,cln2, by.x='Gene', by.y='Gene')
+
+
+# Now add the stomach cancer array data
+# the first 4 samples are gastric stomach cancer genes in the peripheral blood, 
+# the last, sample 5, is a healthy control, whole blood samples, ages 39-46 for all 5
+stomachCancer <- read.csv('StomachCancerCleaned.csv', sep=',', 
+                          header=TRUE, na.strings=c('','NA'))
+Stomach <- stomachCancer[complete.cases(stomachCancer),]
+Stomach_ctrl <- Stomach[,5:6]
+colnames(Stomach_ctrl) <- c('Stomach_Blood_Ctrl_Mean','Gene')
+
+Stomach_cncr <- Stomach[,c(1:4,6)]
+stmch_cncr <- Stomach_cncr %>% group_by(GENE_SYMBOL) %>% summarise_at(vars(GSM1583284:GSM1583287), 
+                                                                      mean, na.rm=TRUE)
+Stomach_cncr <- data.frame(stmch_cncr)
+row.names(Stomach_cncr) <- Stomach_cncr$GENE_SYMBOL
+Stomach_cncr <- Stomach_cncr[,-1]
+Stomach_cncr$Stomach_Cancer_Mean <- rowMeans(Stomach_cncr)
+Stomach_cncr$Gene <- row.names(Stomach_cncr)
+Stomach_cncr <- Stomach_cncr[,-c(1:4)]
+colnames(Stomach_cncr)[1] <- 'Stomach_Cancer_Blood_Mean'
+
+Stomach <- merge(Stomach_cncr, Stomach_ctrl, by.x='Gene', by.y='Gene')
+
+DiseaseGenes <- merge(diseaseGenes, Stomach, by.x='Gene', by.y='Gene')
+
+write.csv(DiseaseGenes, 'br_ul_panc_stmc_cln_glm_sbm_Means.csv', row.names=FALSE)
+# ARHGEF10 is a tumor suppressor in pancreatic cancer tumors, with incr and decr samples
+# most genes also increase and decrease with the incr or decr in ARHGEF10, some move opposite
+# LGR5 is shown in colon cancer for changes, The colon cancer data is of blood gene changes 
+# using lentivirus infection in cell cultures from the colon cancer blood, 
+# breast cancer samples are compared to SH3GL2 as a tumor supporessor in BRCR
+# the glioma and sebum samples are compared to CBD treated samples of same
+# glioma from the tumor biopsies and sebum from hair follicle extractions of sebacious glands
+# for acne experiment using CBD treated sebum
+# the UL are uterine leiomyomas, and the nonUL are otherwise healthy samples, both from uterine
+# tissue samples
 
