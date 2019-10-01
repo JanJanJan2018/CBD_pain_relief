@@ -797,3 +797,172 @@ write.csv(DiseaseGenes, 'br_ul_panc_stmc_cln_glm_sbm_Means.csv', row.names=FALSE
 # the UL are uterine leiomyomas, and the nonUL are otherwise healthy samples, both from uterine
 # tissue samples
 
+###################################################################################################
+###################################################################################################
+###################################################################################################
+
+
+# read in all samples from all data sets and omit the statistical data added like fold change
+# differential expression, means, and magnitude, as well as counts when taking row means
+# of duplicate genes in a data set
+
+gliomaCBD <- read.csv('gliomaCBD.csv', row.names=1, header=TRUE, sep=',')
+sebumCBD <- read.csv('sebumCBD.csv', row.names=1, header=TRUE, sep=',')
+UL_FC <- read.csv('all_common_12173_130_fold_magnitude.csv', sep=',', header=TRUE, row.names=1)
+pancr3 <- read.csv('pancreaticCancerGenes.csv', sep=',', header=TRUE, na.strings=c('','NA'))
+brstCancer <- read.csv('BreastCancerCleaned.csv', sep=',', header=TRUE, na.strings=c('', 'NA'))
+clnCancer <- read.csv('ColonCancerCleaned.csv', sep=',', header=TRUE, na.strings=c('','NA'))
+stmCancer <- read.csv('StomachCancerCleaned.csv', sep=',', header=TRUE, na.strings=c('','NA'))
+
+gliomaCBD$gene <-row.names(gliomaCBD)
+gliomaCBD$gene <- gsub(' ','', as.character(gliomaCBD$gene))
+gliomaCBD$gene <- as.factor(gliomaCBD$gene)
+
+sebumCBD$gene <- row.names(sebumCBD)
+sebumCBD$gene <- as.factor(sebumCBD$gene)
+
+colnames(gliomaCBD) <- c("GSM1399027.glioma.CBD" , "GSM1399028.glioma.CTRL", 
+                         "GSM1399029.glioma.CBD" , "GSM1399030.glioma.CTRL" ,
+                         "GSM1399031.glioma.CBD","GSM1399032.glioma.CTRL", "gene" )
+
+colnames(sebumCBD) <- c("GSM1385013.sebum.REP1", "GSM1385014.sebum.REP2", "GSM1385015.sebum.REP2",
+                        "GSM1385016.sebum.CTRL", "GSM1385017.sebum.CBD", "gene")
+
+colnames(clnCancer) <- c("GSM4027437.colon.ctrl", "GSM4027439.colon.ctrl", 
+                         "GSM4027441.colon.LGR5.2.down", "GSM4027442.colon.LGR5.2.down", 
+                         "GSM4027444.colon.LGR5.1.down", "GSM4027446.colon.LGR5.1.down", "Symbol")
+
+colnames(pancr3) <- c("Symbol"  ,                         "n"      ,                         
+                      "pancreas_ctrl"  ,                    "pancreas_ctrl_Pval" ,     
+                      "pancreas_up_ARHGEF10",                "pancreas_up_ARHGEF10_Pval",
+                      "pancreas_up_then_down_ARHGEF10"  , "pancreas_up_then_down_ARHGEF10_Pval" ,    
+                      "pancreas_down_ARHGEF10" ,               "pancreas_down_ARHGEF10_Pval")
+
+#remove pvalues from pancreatic data frame
+pancr3 <- pancr3[,c(1,3,5,7,9)]
+
+colnames(stmCancer) <- c("GSM1583284.stomach.cancer",  "GSM1583285.stomach.cancer" , 
+                         "GSM1583286.stomach.cancer" , "GSM1583287.stomach.cancer",  
+                         "GSM1583288.stomach.healthy" , "GENE_SYMBOL")
+
+colnames(brstCancer) <- c("GSM2987594.ctrl.brstCncr", "GSM2987595.ctrl.brstCncr", 
+                          "GSM2987596.ctrl.brstCncr" ,
+                          "GSM2987597.SH3GL2.treated.brstCncr", 
+                          "GSM2987598.SH3GL2.treated.brstCncr" ,
+                          "GSM2987599.SH3GL2.treated.brstCncr" ,"Gene" )
+
+# remove meta fields from UL dataset of stats
+UL <- UL_FC[,c(3,10:130)]
+
+colnames(UL)[2:52] <- paste(as.character(colnames(UL)[2:52]), sep='_', 'nonUL')
+colnames(UL)[53:122] <- gsub('UL','',as.character(colnames(UL)[53:122]))
+colnames(UL)[53:122] <- paste(as.character(colnames(UL)[53:122]), sep='_', 'UL')
+
+# Now that all the samples are identified, the colon cancer and the sebum values are change values,
+# hence the negative values, they will be added as they are
+
+# merge all the datasets into one big set by their respective gene symbols
+
+df <- merge(UL, stmCancer, by.x='GENE_SYMBOL', by.y='GENE_SYMBOL')
+df1 <- merge(df, brstCancer, by.x='GENE_SYMBOL', by.y='Gene')
+df2 <- merge(df1, pancr3, by.x='GENE_SYMBOL', by.y='Symbol')
+df3 <- merge(df2, gliomaCBD, by.x='GENE_SYMBOL', by.y='gene')
+df4 <- merge(df3, clnCancer, by.x='GENE_SYMBOL', by.y='Symbol')
+df5 <- merge(df4, sebumCBD, by.x='GENE_SYMBOL', by.y='gene')
+
+# there were duplicate entries per gene in each sample to add the additional samples,
+
+#remove duplicate gene entries
+df5 <- df5[!duplicated(df5$GENE_SYMBOL),]
+row.names(df5) <- df5$GENE_SYMBOL
+
+#remove the GENE_SYMBOL field as the rows now identify the gene of each sample
+all <- df5[,-c(1)]
+
+#write this dataset out to csv
+write.csv(all, 'all_samples_5871_153.csv', row.names=TRUE)
+
+###################################################################################################
+###################################################################################################
+###################################################################################################
+
+all_samples <- read.csv('all_samples_5871_153.csv', row.names=1)
+
+colnames(all_samples)
+# [1] "GSM1667144_nonUL"                   "GSM1667145_nonUL"                  
+# [3] "GSM1667146_nonUL"                   "GSM336252_nonUL"                   
+# [5] "GSM336253_nonUL"                    "GSM336254_nonUL"                   
+# [7] "GSM336255_nonUL"                    "GSM336256_nonUL"                   
+# [9] "GSM336257_nonUL"                    "GSM336258_nonUL"                   
+# [11] "GSM336259_nonUL"                    "GSM336260_nonUL"                   
+# [13] "GSM336261_nonUL"                    "GSM336262_nonUL"                   
+# [15] "GSM336263_nonUL"                    "GSM336264_nonUL"                   
+# [17] "GSM336265_nonUL"                    "GSM336266_nonUL"                   
+# [19] "GSM336267_nonUL"                    "GSM336268_nonUL"                   
+# [21] "GSM336269_nonUL"                    "GSM336270_nonUL"                   
+# [23] "GSM336271_nonUL"                    "GSM336272_nonUL"                   
+# [25] "GSM336273_nonUL"                    "GSM336274_nonUL"                   
+# [27] "GSM336275_nonUL"                    "GSM336276_nonUL"                   
+# [29] "GSM336277_nonUL"                    "GSM336278_nonUL"                   
+# [31] "GSM52661_nonUL"                     "GSM52662_nonUL"                    
+# [33] "GSM52663_nonUL"                     "GSM52664_nonUL"                    
+# [35] "GSM52665_nonUL"                     "GSM52666_nonUL"                    
+# [37] "GSM52667_nonUL"                     "GSM52668_nonUL"                    
+# [39] "GSM52669_nonUL"                     "GSM52670_nonUL"                    
+# [41] "GSM52671_nonUL"                     "GSM9098_nonUL"                     
+# [43] "GSM9099_nonUL"                      "GSM9100_nonUL"                     
+# [45] "GSM9101_nonUL"                      "GSM9102_nonUL"                     
+# [47] "GSM569424_nonUL"                    "GSM569425_nonUL"                   
+# [49] "GSM569426_nonUL"                    "GSM569427_nonUL"                   
+# [51] "GSM569428_nonUL"                    "GSM1667147_UL"                     
+# [53] "GSM1667148_UL"                      "GSM1667149_UL"                     
+# [55] "GSM336202_UL"                       "GSM336203_UL"                      
+# [57] "GSM336204_UL"                       "GSM336205_UL"                      
+# [59] "GSM336206_UL"                       "GSM336207_UL"                      
+# [61] "GSM336208_UL"                       "GSM336209_UL"                      
+# [63] "GSM336210_UL"                       "GSM336211_UL"                      
+# [65] "GSM336212_UL"                       "GSM336213_UL"                      
+# [67] "GSM336214_UL"                       "GSM336215_UL"                      
+# [69] "GSM336216_UL"                       "GSM336217_UL"                      
+# [71] "GSM336218_UL"                       "GSM336219_UL"                      
+# [73] "GSM336220_UL"                       "GSM336221_UL"                      
+# [75] "GSM336222_UL"                       "GSM336223_UL"                      
+# [77] "GSM336224_UL"                       "GSM336225_UL"                      
+# [79] "GSM336226_UL"                       "GSM336227_UL"                      
+# [81] "GSM336228_UL"                       "GSM336229_UL"                      
+# [83] "GSM336230_UL"                       "GSM336231_UL"                      
+# [85] "GSM336232_UL"                       "GSM336233_UL"                      
+# [87] "GSM336234_UL"                       "GSM336235_UL"                      
+# [89] "GSM336236_UL"                       "GSM336237_UL"                      
+# [91] "GSM336238_UL"                       "GSM336239_UL"                      
+# [93] "GSM336240_UL"                       "GSM336241_UL"                      
+# [95] "GSM336242_UL"                       "GSM336243_UL"                      
+# [97] "GSM336244_UL"                       "GSM336245_UL"                      
+# [99] "GSM336246_UL"                       "GSM336247_UL"                      
+# [101] "GSM336248_UL"                       "GSM336249_UL"                      
+# [103] "GSM336250_UL"                       "GSM336251_UL"                      
+# [105] "GSM38689_UL"                        "GSM38690_UL"                       
+# [107] "GSM38691_UL"                        "GSM38692_UL"                       
+# [109] "GSM38693_UL"                        "GSM38694_UL"                       
+# [111] "GSM38695_UL"                        "GSM9093_UL"                        
+# [113] "GSM9094_UL"                         "GSM9095_UL"                        
+# [115] "GSM9096_UL"                         "GSM9097_UL"                        
+# [117] "GSM569429_UL"                       "GSM569430_UL"                      
+# [119] "GSM569431_UL"                       "GSM569432_UL"                      
+# [121] "GSM569433_UL"                       "GSM1583284.stomach.cancer"         
+# [123] "GSM1583285.stomach.cancer"          "GSM1583286.stomach.cancer"         
+# [125] "GSM1583287.stomach.cancer"          "GSM1583288.stomach.healthy"        
+# [127] "GSM2987594.ctrl.brstCncr"           "GSM2987595.ctrl.brstCncr"          
+# [129] "GSM2987596.ctrl.brstCncr"           "GSM2987597.SH3GL2.treated.brstCncr"
+# [131] "GSM2987598.SH3GL2.treated.brstCncr" "GSM2987599.SH3GL2.treated.brstCncr"
+# [133] "pancreas_ctrl"                      "pancreas_up_ARHGEF10"              
+# [135] "pancreas_up_then_down_ARHGEF10"     "pancreas_down_ARHGEF10"            
+# [137] "GSM1399027.glioma.CBD"              "GSM1399028.glioma.CTRL"            
+# [139] "GSM1399029.glioma.CBD"              "GSM1399030.glioma.CTRL"            
+# [141] "GSM1399031.glioma.CBD"              "GSM1399032.glioma.CTRL"            
+# [143] "GSM4027437.colon.ctrl"              "GSM4027439.colon.ctrl"             
+# [145] "GSM4027441.colon.LGR5.2.down"       "GSM4027442.colon.LGR5.2.down"      
+# [147] "GSM4027444.colon.LGR5.1.down"       "GSM4027446.colon.LGR5.1.down"      
+# [149] "GSM1385013.sebum.REP1"              "GSM1385014.sebum.REP2"             
+# [151] "GSM1385015.sebum.REP2"              "GSM1385016.sebum.CTRL"             
+# [153] "GSM1385017.sebum.CBD" 

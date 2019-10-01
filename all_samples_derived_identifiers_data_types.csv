@@ -1,0 +1,172 @@
+﻿Feature Name,Dataset,values,CSV_Source,Dimensions,GeneSymbol,SampleType
+GSM1399032.CTRL,glioma data set,positive,gliomaCBD.csv,20326 X 6,row names,glioma control
+GSM1385013.REP1,sebum data set,mixed,sebumCBD.csv,13931 X 5,row names,sebum control
+GSM1385014.REP2,sebum data set,mixed,sebumCBD.csv,13932 X 5,row names,sebum control
+GSM1385015.REP2,sebum data set,mixed,sebumCBD.csv,13933 X 5,row names,sebum control
+GSM1385016.CTRL,sebum data set,positive,sebumCBD.csv,13934 X 5,row names,sebum control
+GSM1385017.CBD,sebum data set,mixed,sebumCBD.csv,13935 X 5,row names,sebum CBD treated
+GSM1399027.CBD,glioma data set,positive,gliomaCBD.csv,20326 X 6,row names,glioma CBD treated
+GSM1399028.CTRL,glioma data set,positive,gliomaCBD.csv,20327 X 6,row names,glioma control
+GSM1399029.CBD,glioma data set,positive,gliomaCBD.csv,20328 X 6,row names,glioma CBD treated
+GSM1399030.CTRL,glioma data set,positive,gliomaCBD.csv,20329 X 6,row names,glioma control
+GSM1399031.CBD,glioma data set,positive,gliomaCBD.csv,20330 X 6,row names,glioma CBD treated
+Counts,uterine leiomyoma data set,meta,all_common_12173_130_fold_magnitude.csv,12173 X 130,GENE_SYMBOL,UL meta
+CYTOBAND,uterine leiomyoma data set,meta,all_common_12173_130_fold_magnitude.csv,12174 X 130,GENE_SYMBOL,UL meta
+DE,uterine leiomyoma data set,mixed,all_common_12173_130_fold_magnitude.csv,12175 X 130,GENE_SYMBOL,UL meta
+foldChange,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12176 X 130,GENE_SYMBOL,UL meta
+GENE,uterine leiomyoma data set,meta,all_common_12173_130_fold_magnitude.csv,12177 X 130,GENE_SYMBOL,UL meta
+GENE_SYMBOL,uterine leiomyoma data set,meta,all_common_12173_130_fold_magnitude.csv,12178 X 130,GENE_SYMBOL,UL meta
+Magnitude,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12179 X 130,GENE_SYMBOL,UL meta
+nonUL_mean,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12180 X 130,GENE_SYMBOL,UL meta
+UL_mean,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12181 X 130,GENE_SYMBOL,UL meta
+GSM1667144,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12182 X 130,GENE_SYMBOL,UL control
+GSM1667145,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12183 X 130,GENE_SYMBOL,UL control
+GSM1667146,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12184 X 130,GENE_SYMBOL,UL control
+GSM336252,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12185 X 130,GENE_SYMBOL,UL control
+GSM336253,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12186 X 130,GENE_SYMBOL,UL control
+GSM336254,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12187 X 130,GENE_SYMBOL,UL control
+GSM336255,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12188 X 130,GENE_SYMBOL,UL control
+GSM336256,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12189 X 130,GENE_SYMBOL,UL control
+GSM336257,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12190 X 130,GENE_SYMBOL,UL control
+GSM336258,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12191 X 130,GENE_SYMBOL,UL control
+GSM336259,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12192 X 130,GENE_SYMBOL,UL control
+GSM336260,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12193 X 130,GENE_SYMBOL,UL control
+GSM336261,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12194 X 130,GENE_SYMBOL,UL control
+GSM336262,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12195 X 130,GENE_SYMBOL,UL control
+GSM336263,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12196 X 130,GENE_SYMBOL,UL control
+GSM336264,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12197 X 130,GENE_SYMBOL,UL control
+GSM336265,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12198 X 130,GENE_SYMBOL,UL control
+GSM336266,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12199 X 130,GENE_SYMBOL,UL control
+GSM336267,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12200 X 130,GENE_SYMBOL,UL control
+GSM336268,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12201 X 130,GENE_SYMBOL,UL control
+GSM336269,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12202 X 130,GENE_SYMBOL,UL control
+GSM336270,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12203 X 130,GENE_SYMBOL,UL control
+GSM336271,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12204 X 130,GENE_SYMBOL,UL control
+GSM336272,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12205 X 130,GENE_SYMBOL,UL control
+GSM336273,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12206 X 130,GENE_SYMBOL,UL control
+GSM336274,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12207 X 130,GENE_SYMBOL,UL control
+GSM336275,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12208 X 130,GENE_SYMBOL,UL control
+GSM336276,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12209 X 130,GENE_SYMBOL,UL control
+GSM336277,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12210 X 130,GENE_SYMBOL,UL control
+GSM336278,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12211 X 130,GENE_SYMBOL,UL control
+GSM52661,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12212 X 130,GENE_SYMBOL,UL control
+GSM52662,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12213 X 130,GENE_SYMBOL,UL control
+GSM52663,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12214 X 130,GENE_SYMBOL,UL control
+GSM52664,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12215 X 130,GENE_SYMBOL,UL control
+GSM52665,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12216 X 130,GENE_SYMBOL,UL control
+GSM52666,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12217 X 130,GENE_SYMBOL,UL control
+GSM52667,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12218 X 130,GENE_SYMBOL,UL control
+GSM52668,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12219 X 130,GENE_SYMBOL,UL control
+GSM52669,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12220 X 130,GENE_SYMBOL,UL control
+GSM52670,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12221 X 130,GENE_SYMBOL,UL control
+GSM52671,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12222 X 130,GENE_SYMBOL,UL control
+GSM569424,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12223 X 130,GENE_SYMBOL,UL control
+GSM569425,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12224 X 130,GENE_SYMBOL,UL control
+GSM569426,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12225 X 130,GENE_SYMBOL,UL control
+GSM569427,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12226 X 130,GENE_SYMBOL,UL control
+GSM569428,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12227 X 130,GENE_SYMBOL,UL control
+GSM9098,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12228 X 130,GENE_SYMBOL,UL control
+GSM9099,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12229 X 130,GENE_SYMBOL,UL control
+GSM9100,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12230 X 130,GENE_SYMBOL,UL control
+GSM9101,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12231 X 130,GENE_SYMBOL,UL control
+GSM9102,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12232 X 130,GENE_SYMBOL,UL control
+GSM1667147UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12233 X 130,GENE_SYMBOL,UL disease
+GSM1667148UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12234 X 130,GENE_SYMBOL,UL disease
+GSM1667149UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12235 X 130,GENE_SYMBOL,UL disease
+GSM336202UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12236 X 130,GENE_SYMBOL,UL disease
+GSM336203UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12237 X 130,GENE_SYMBOL,UL disease
+GSM336204UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12238 X 130,GENE_SYMBOL,UL disease
+GSM336205UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12239 X 130,GENE_SYMBOL,UL disease
+GSM336206UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12240 X 130,GENE_SYMBOL,UL disease
+GSM336207UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12241 X 130,GENE_SYMBOL,UL disease
+GSM336208UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12242 X 130,GENE_SYMBOL,UL disease
+GSM336209UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12243 X 130,GENE_SYMBOL,UL disease
+GSM336210UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12244 X 130,GENE_SYMBOL,UL disease
+GSM336211UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12245 X 130,GENE_SYMBOL,UL disease
+GSM336212UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12246 X 130,GENE_SYMBOL,UL disease
+GSM336213UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12247 X 130,GENE_SYMBOL,UL disease
+GSM336214UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12248 X 130,GENE_SYMBOL,UL disease
+GSM336215UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12249 X 130,GENE_SYMBOL,UL disease
+GSM336216UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12250 X 130,GENE_SYMBOL,UL disease
+GSM336217UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12251 X 130,GENE_SYMBOL,UL disease
+GSM336218UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12252 X 130,GENE_SYMBOL,UL disease
+GSM336219UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12253 X 130,GENE_SYMBOL,UL disease
+GSM336220UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12254 X 130,GENE_SYMBOL,UL disease
+GSM336221UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12255 X 130,GENE_SYMBOL,UL disease
+GSM336222UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12256 X 130,GENE_SYMBOL,UL disease
+GSM336223UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12257 X 130,GENE_SYMBOL,UL disease
+GSM336224UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12258 X 130,GENE_SYMBOL,UL disease
+GSM336225UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12259 X 130,GENE_SYMBOL,UL disease
+GSM336226UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12260 X 130,GENE_SYMBOL,UL disease
+GSM336227UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12261 X 130,GENE_SYMBOL,UL disease
+GSM336228UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12262 X 130,GENE_SYMBOL,UL disease
+GSM336229UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12263 X 130,GENE_SYMBOL,UL disease
+GSM336230UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12264 X 130,GENE_SYMBOL,UL disease
+GSM336231UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12265 X 130,GENE_SYMBOL,UL disease
+GSM336232UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12266 X 130,GENE_SYMBOL,UL disease
+GSM336233UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12267 X 130,GENE_SYMBOL,UL disease
+GSM336234UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12268 X 130,GENE_SYMBOL,UL disease
+GSM336235UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12269 X 130,GENE_SYMBOL,UL disease
+GSM336236UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12270 X 130,GENE_SYMBOL,UL disease
+GSM336237UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12271 X 130,GENE_SYMBOL,UL disease
+GSM336238UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12272 X 130,GENE_SYMBOL,UL disease
+GSM336239UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12273 X 130,GENE_SYMBOL,UL disease
+GSM336240UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12274 X 130,GENE_SYMBOL,UL disease
+GSM336241UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12275 X 130,GENE_SYMBOL,UL disease
+GSM336242UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12276 X 130,GENE_SYMBOL,UL disease
+GSM336243UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12277 X 130,GENE_SYMBOL,UL disease
+GSM336244UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12278 X 130,GENE_SYMBOL,UL disease
+GSM336245UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12279 X 130,GENE_SYMBOL,UL disease
+GSM336246UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12280 X 130,GENE_SYMBOL,UL disease
+GSM336247UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12281 X 130,GENE_SYMBOL,UL disease
+GSM336248UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12282 X 130,GENE_SYMBOL,UL disease
+GSM336249UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12283 X 130,GENE_SYMBOL,UL disease
+GSM336250UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12284 X 130,GENE_SYMBOL,UL disease
+GSM336251UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12285 X 130,GENE_SYMBOL,UL disease
+GSM38689UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12286 X 130,GENE_SYMBOL,UL disease
+GSM38690UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12287 X 130,GENE_SYMBOL,UL disease
+GSM38691UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12288 X 130,GENE_SYMBOL,UL disease
+GSM38692UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12289 X 130,GENE_SYMBOL,UL disease
+GSM38693UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12290 X 130,GENE_SYMBOL,UL disease
+GSM38694UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12291 X 130,GENE_SYMBOL,UL disease
+GSM38695UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12292 X 130,GENE_SYMBOL,UL disease
+GSM9093UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12293 X 130,GENE_SYMBOL,UL disease
+GSM9094UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12294 X 130,GENE_SYMBOL,UL disease
+GSM9095UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12295 X 130,GENE_SYMBOL,UL disease
+GSM9096UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12296 X 130,GENE_SYMBOL,UL disease
+GSM9097UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12297 X 130,GENE_SYMBOL,UL disease
+GSM569429UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12298 X 130,GENE_SYMBOL,UL disease
+GSM569430UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12299 X 130,GENE_SYMBOL,UL disease
+GSM569431UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12300 X 130,GENE_SYMBOL,UL disease
+GSM569432UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12301 X 130,GENE_SYMBOL,UL disease
+GSM569433UL,uterine leiomyoma data set,positive,all_common_12173_130_fold_magnitude.csv,12302 X 130,GENE_SYMBOL,UL disease
+Symbol,pancreatic cancer data set,meta,pancreaticCancerGenes.csv,20816 X 10,Symbol,pancreatic meta
+n,pancreatic cancer data set,positive,pancreaticCancerGenes.csv,20817 X 10,Symbol,pancreatic meta
+MiaPACA2_EV,pancreatic cancer data set,positive,pancreaticCancerGenes.csv,20818 X 10,Symbol,pancreatic control
+MiaPACA2_EV.Detection_Pval,pancreatic cancer data set,positive,pancreaticCancerGenes.csv,20819 X 10,Symbol,pancreatic control Pval
+MiaPACA2_ARHGEF10,pancreatic cancer data set,positive,pancreaticCancerGenes.csv,20820 X 10,Symbol,pancreatic up ARHGEF10
+MiaPACA2_ARHGEF10.Detection_Pval,pancreatic cancer data set,positive,pancreaticCancerGenes.csv,20821 X 10,Symbol,pancreatic up ARHGEF10 Pval
+Hs766T_shGFP,pancreatic cancer data set,positive,pancreaticCancerGenes.csv,20822 X 10,Symbol,pancreatic control down ARHGEF10
+Hs766T_shGFP.Detection_Pval,pancreatic cancer data set,positive,pancreaticCancerGenes.csv,20823 X 10,Symbol,pancreatic control down ARHGEF10 Pval
+Hs766T_shARHGEF10,pancreatic cancer data set,positive,pancreaticCancerGenes.csv,20824 X 10,Symbol,pancreatic down ARHGEF10
+Hs766T_shARHGEF10.Detection_Pval,pancreatic cancer data set,positive,pancreaticCancerGenes.csv,20825 X 10,Symbol,pancreatic down ARHGEF11 Pval
+GSM2987594,breast cancer data set,positive,BreastCancerCleaned.csv,8746 X 7,Gene,breast cancer control
+GSM2987595,breast cancer data set,positive,BreastCancerCleaned.csv,8747 X 7,Gene,breast cancer control
+GSM2987596,breast cancer data set,positive,BreastCancerCleaned.csv,8748 X 7,Gene,breast cancer control
+GSM2987597,breast cancer data set,positive,BreastCancerCleaned.csv,8749 X 7,Gene,breast cancer SH3GL2 treated
+GSM2987598,breast cancer data set,positive,BreastCancerCleaned.csv,8750 X 7,Gene,breast cancer SH3GL2 treated
+GSM2987599,breast cancer data set,positive,BreastCancerCleaned.csv,8751 X 7,Gene,breast cancer SH3GL2 treated
+Gene,breast cancer data set,positive,BreastCancerCleaned.csv,8752 X 7,Gene,breast cancer meta
+GSM4027437,colon cancer data set,mixed,ColonCancerCleaned.csv,47323 X 7,Symbol,colon cancer control
+GSM4027439,colon cancer data set,mixed,ColonCancerCleaned.csv,47324 X 7,Symbol,colon cancer control
+GSM4027441,colon cancer data set,mixed,ColonCancerCleaned.csv,47325 X 7,Symbol,colon cancer LGR5-2 down
+GSM4027442,colon cancer data set,mixed,ColonCancerCleaned.csv,47326 X 7,Symbol,colon cancer LGR5-2 down
+GSM4027444,colon cancer data set,mixed,ColonCancerCleaned.csv,47327 X 7,Symbol,colon cancer LGR5-1 down
+GSM4027446,colon cancer data set,mixed,ColonCancerCleaned.csv,47328 X 7,Symbol,colon cancer LGR5-1 down
+Symbol,colon cancer data set,mixed,ColonCancerCleaned.csv,47329 X 7,Symbol,colon cancer meta
+GSM1583284,stomach cancer data set,positive,StomachCancerCleaned.csv,27911 X 6,GENE_SYMBOL,stomach cancer blood disease
+GSM1583285,stomach cancer data set,positive,StomachCancerCleaned.csv,27912 X 6,GENE_SYMBOL,stomach cancer blood disease
+GSM1583286,stomach cancer data set,positive,StomachCancerCleaned.csv,27913 X 6,GENE_SYMBOL,stomach cancer blood disease
+GSM1583287,stomach cancer data set,positive,StomachCancerCleaned.csv,27914 X 6,GENE_SYMBOL,stomach cancer blood disease
+GSM1583288,stomach cancer data set,positive,StomachCancerCleaned.csv,27915 X 6,GENE_SYMBOL,stomach cancer healthy blood control
+GENE_SYMBOL,stomach cancer data set,positive,StomachCancerCleaned.csv,27916 X 6,GENE_SYMBOL,stomach cancer meta
