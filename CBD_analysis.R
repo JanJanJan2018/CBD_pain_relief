@@ -966,3 +966,56 @@ colnames(all_samples)
 # [149] "GSM1385013.sebum.REP1"              "GSM1385014.sebum.REP2"             
 # [151] "GSM1385015.sebum.REP2"              "GSM1385016.sebum.CTRL"             
 # [153] "GSM1385017.sebum.CBD" 
+
+all_t <- t(all_samples) #transpose so genes are columns and samples are rows
+
+# add in a field for the type of sample as uterine benign tumor, uterine healthy tissue, 
+# peripheral blood (stm), healthy peripheral blood cells, sebum cells, 
+# colon cancer cells, breast cancer cells, glioma stem cells
+# this type field will have 12 classes of sample type
+
+nonUL <- data.frame(rep('uterine healthy tissue', 51))
+colnames(nonUL) <- 'Type'
+
+UL <- data.frame(rep('uterine benign tumor', 70))
+colnames(UL) <- 'Type'
+
+stomach1 <- data.frame(rep('stomach cancer blood',4))
+colnames(stomach1) <- 'Type'
+
+stomach2 <- data.frame(rep('stomach healthy blood',1))
+colnames(stomach2) <- 'Type'
+
+brst1 <- data.frame(rep('breast cancer cells',3))
+colnames(brst1) <- 'Type'
+
+brst2 <- data.frame(rep('breast cancer treated',3))
+colnames(brst2) <- 'Type'
+
+pancr <- data.frame(rep('pancreas cancer cells', 1))
+colnames(pancr) <- 'Type'
+
+pancr2 <- data.frame(rep('pancreas up treated', 2))
+colnames(pancr2) <- 'Type'
+
+pancr3 <- data.frame(rep('pancreas down treated',1))
+colnames(pancr3) <- 'Type'
+
+glioma <- data.frame(rep('glioma stem cells', 6))
+colnames(glioma) <- 'Type'
+
+colon <- data.frame(rep('colon cancer cell changes', 6))
+colnames(colon) <- 'Type'
+
+sebum <- data.frame(rep('acne cell changes', 5))
+colnames(sebum) <- 'Type'
+
+Type <- rbind(nonUL, UL, stomach1, stomach2, brst1, brst2, pancr, 
+              pancr2, pancr3, glioma, colon, sebum)
+
+All_T <- data.frame(all_t)
+All <- cbind(Type, All_T)
+
+#write out this file with the new field for the type of sample it is
+write.csv(All, 'All_t_typed_153_5872.csv', row.names=TRUE)
+
